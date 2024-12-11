@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Log;
 use App\Exports\LogExports;
+use App\Http\Resources\LogResource;
+use Carbon\CarbonInterval;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -14,7 +16,14 @@ class LogController extends Controller
     public function index(){
 
         $logs = Log::orderBy('created_at','DESC')->get();
-        return view('welcome',compact(['logs']));
+        $logsCol = LogResource::collection($logs);
+        // dd($logsCol);
+        
+        // $logs = 
+
+        return view('dashboard',[
+            "logs" => LogResource::collection($logs)
+        ]);
     }
     private function userData($user_id)
     {
@@ -51,21 +60,26 @@ class LogController extends Controller
                 'user_id' => $user_id,
                 'user_name' => $this->userData($user_id),
                 'user_in' => Carbon::now(),
-                'user_out' => null
+                // 'user_in' => Carbon::now(),
+                'user_out' => null,
+                'duration' => null
             ]);
-            return redirect('/')->with('success', 'SCAN SUKSES, user dari '. $this->userData($user_id).' sedang memasuki area SDI');
+            return redirect('/dashboard')->with('success', 'SCAN SUKSES, user dari '. $this->userData($user_id).' sedang memasuki area SDI');
         }
         if($status === 'OUT'){
             // try{
                 $dataLog = Log::where('user_id',$user_id)->where('user_out',null)->first();
                 if(!$dataLog){
-                    return redirect('/')->with('error','Harap scan barcode IN');
+                    return redirect('/dashboard')->with('error','Harap scan barcode IN');
                 }
                 $dataLog->user_out = Carbon::now();
+                $dataLog->duration = ceil(Carbon::parse($dataLog->user_in)->diffInSeconds($dataLog->user_out));
+                // $dataLog->duration = 72;
                 $dataLog->save();
-                return redirect('/')->with('success', 'SCAN SUKSES, user dari ' . $this->userData($user_id) . ' sedang meninggalkan area SDI');
+                // dd($dataLog);
+                return redirect('/dashboard')->with('success', 'SCAN SUKSES, user dari ' . $this->userData($user_id) . ' sedang meninggalkan area SDI');
         }
-        return redirect('/')->with('error', 'Barcode yang discan tidak sesuai format');
+        return redirect('/dashboard')->with('error', 'Barcode yang discan tidak sesuai format');
     }
     public function export(){
         return Excel::download(new LogExports, "logs.xlsx");

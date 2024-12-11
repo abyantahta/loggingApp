@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('user_name');
             $table->timestamp('user_in');
             $table->timestamp('user_out')->nullable();
+            $table->integer('duration')->nullable();
             $table->timestamps();
         });
     }

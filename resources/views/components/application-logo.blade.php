@@ -1,0 +1,1 @@
+<img style="width: 100%" src="https://media.licdn.com/dms/image/v2/D560BAQFAz4zMQsnRAQ/company-logo_200_200/company-logo_200_200/0/1683249151464?e=2147483647&v=beta&t=uMypPyvfsUZc0cit7ztKSxlYPNXGLY2a0I1RO-0v4IQ" alt="">

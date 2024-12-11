@@ -12,6 +12,7 @@ class Log extends Model
         'user_name',
         'user_in',
         'user_out',
+        'duration',
     ];
     /** @use HasFactory<\Database\Factories\LogFactory> */
     use HasFactory;

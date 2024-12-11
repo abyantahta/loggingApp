@@ -45,7 +45,7 @@
             <thead style="position: sticky;top: -1px;left: 0;widows: 100%;">
                 <tr>
                     <th style=" background-color: #c5e3f3; max-width: 35px">No</th>
-                    <th style=" background-color: #c5e3f3; width: 200px">Kode</th>
+                    <th style=" background-color: #c5e3f3; max-width: 100px">Kode</th>
                     <th style=" background-color: #c5e3f3;">Nama</th>
                     <th style=" background-color: #c5e3f3;">Date Masuk</th>
                     <th style=" background-color: #c5e3f3;">Date Keluar</th>
